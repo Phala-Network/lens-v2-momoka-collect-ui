@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect} from 'react'
 import { client, refresh, explorePublications, profilesByAddress, challenge, authenticate, feed  } from '../../api'
-import { Publication } from '@lens-protocol/widgets-react'
+import { Publication } from '../widgets-react'
 import { Button } from '../components/Button'
 import { Loading } from '../components/Loading'
 import { ethers } from 'ethers'

@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] })
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Lens Algorithm Playground',
+  title: `Lens Playground (${process.env['NODE_ENV']})`,
   description: 'The Lens Algorithm Playground is meant to give you an overview of various Lens APIs and algorithms available for developers building on Lens Protocol.'
 }
 
@@ -23,7 +23,7 @@ export default function RootLayout({
           flex border-b pl-6 flex items-center
           ">
           <img src='/logo.svg' className="w-[50px]" />
-          <p className="text-slate-500">Lens Algorithm Playground</p>
+          <p className="text-slate-500">Lens Playground ({process.env['NODE_ENV']})</p>
           </Link>
         </nav>
         <div className="flex">
