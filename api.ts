@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 
-export const API_URL = (process.env['NODE_ENV'] == 'production'
+export const API_URL = (process.env['LENS_NETWORK'] == 'mainnet'
   ? "https://api.lens.dev"
   : "https://api-mumbai.lens.dev"
 );

@@ -36,7 +36,7 @@ async function getAttestation(fullPubId: string): Promise<string> {
   const oracle = new Phala.PinkContractPromise(api, registry, MomokaOracleAbi, contractId, contractKey);
 
   const hexStr = stringToHex(fullPubId);
-  const mainnet = (process.env['NODE_ENV'] == 'production')
+  const mainnet = (process.env['LENS_NETWORK'] == 'mainnet')
   // @ts-ignore
   const result: any = await oracle.query.checkLensPublication(address, {cert}, hexStr, mainnet);
   if (!result.output.isOk || !result.output.asOk.isOk) {

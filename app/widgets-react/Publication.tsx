@@ -57,7 +57,7 @@ export function Publication({
     if (onClick) {
       onClick()
     } else {
-      const URI = (process.env['NODE_ENV'] == 'production'
+      const URI = (process.env['LENS_NETWORK'] == 'mainnet'
         ? `https://share.lens.xyz/p/${publicationId}`
         : `https://testnet.lenster.xyz/posts/${publicationId}`
       )
