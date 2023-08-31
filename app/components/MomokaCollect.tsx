@@ -107,13 +107,15 @@ export function MomokaCollect({
             '0x'
         ]
         
-        const gas = await actHub.momokaAct.estimateGas(actParams, oracleAttestation);
+        const gas = await actHub.momokaAct.estimateGas(actParams, oracleAttestation)
         console.log('Estimated gas', gas)
 
-        const tx = await actHub.momokaAct.send(actParams, oracleAttestation);
-        const receipt = await tx.wait();
-        console.log('Tx', receipt.hash)
-        setTx(receipt.hash)
+        const tx = await actHub.momokaAct.send(actParams, oracleAttestation)
+        const receipt = await tx.wait()
+        console.log('Tx', receipt?.hash)
+        if (receipt) {
+            setTx(receipt?.hash)
+        }
 
         setLoading(false)
     }

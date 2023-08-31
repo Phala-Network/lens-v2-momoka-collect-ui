@@ -10,6 +10,7 @@ import LensIcon from './LensIcon'
 
 declare global {
   interface Window{
+    // @ts-ignore
     ethereum?: any
   }
 }

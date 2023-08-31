@@ -142,8 +142,11 @@ export default function Home() {
     <div>
       <div>
         <p className="text-3xl text-slate-400 mb-4">Lens</p>
+        <p className="mb-2">Demo page that allows you to collect a Momoka publication. Learn more at <a className="text-emerald-600" href="https://www.loom.com/share/448c07afec5b46fb85eb438ea402f4f8?sid=86005f21-5c00-4aa2-90bf-2409643d4c15">Phala Oracle Demo Video</a>.</p>
         <div className='mb-2'>
-        authenticated: {authenticated.toString()} - profile: {profile && profile.id} - provider: {Boolean(web3Provider).toString()}
+          <code>
+            authenticated: {authenticated.toString()} - profile: {profile && profile.id} - provider: {Boolean(web3Provider).toString()}
+          </code>
         </div>
         <div className='mb-2'>
           {(!web3Provider || !profile) && 
