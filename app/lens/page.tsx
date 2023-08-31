@@ -5,6 +5,7 @@ import { Publication } from '../widgets-react'
 import { Button } from '../components/Button'
 import { Loading } from '../components/Loading'
 import { ethers } from 'ethers'
+import { MomokaCollect } from '../components/MomokaCollect'
 
 declare global {
   interface Window {
@@ -61,7 +62,7 @@ export default function Home() {
           sortCriteria,
         },
       })
-      setPublications(response.data.explorePublications.items)
+      setPublications(response.data.explorePublications.items.filter(x => !!x.id))
       setLoadingMain(false)
     } catch (err) {
       console.log('error:', err)
@@ -215,6 +216,11 @@ export default function Home() {
                         <Publication
                           publicationId={publication.id}
                         />
+                        {publication.id.includes('-DA-') && <div className='ml-3 my-2'>
+                          <MomokaCollect
+                            publicationId={publication.id}
+                          />
+                        </div>}
                       </div>
                     ))
                   }

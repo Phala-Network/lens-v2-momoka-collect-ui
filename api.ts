@@ -390,6 +390,9 @@ export const explorePublications = gql`
         ... on Post {
           id
         }
+        ... on Comment {
+          id
+        }
       }
       pageInfo {
         prev
