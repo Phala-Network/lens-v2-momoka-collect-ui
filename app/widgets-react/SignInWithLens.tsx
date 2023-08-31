@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Theme, Size, Tokens, Profile } from './types'
 import { getContainerStyle, getTextStyle } from './utils'
-import { Web3Provider } from '@ethersproject/providers'
-import { ethers } from 'ethers'
+import { ethers, BrowserProvider } from 'ethers'
 import { client } from './graphql/client'
 import {
   challenge, authenticate, profileByAddress, profiles as profilesQuery
@@ -26,7 +25,7 @@ export function SignInWithLens({
   textStyle,
   icon
 } : {
-  provider?: Web3Provider,
+  provider?: BrowserProvider,
   theme?: Theme,
   size?: Size,
   title?: string,
@@ -63,7 +62,7 @@ export function SignInWithLens({
         })
         .toPromise()
 
-      const signer = provider.getSigner()
+      const signer = await provider.getSigner()
       const signature = await signer.signMessage(text)
 
       const { data: { authenticate: tokens } } = await client
@@ -107,7 +106,7 @@ export function SignInWithLens({
       await window.ethereum.request({
         method: 'eth_requestAccounts'
       })
-      return new ethers.providers.Web3Provider(window.ethereum)
+      return new ethers.BrowserProvider(window.ethereum)
     } catch (err) {
       console.log('error connecting wallet and signing in...', err)
     }

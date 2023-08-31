@@ -22,6 +22,8 @@ export default function Home() {
   const [view, setView] = useState('global')
   const [authenticated, setAuthenticated] = useState(false)
   const [personalizedFeed, setPersonalizedFeed] = useState<any>([])
+  const [profile, setProfile] = useState<any>(null)
+  const [web3Provider, setWeb3Provider] = useState<ethers.BrowserProvider | undefined>(undefined)
   useEffect(() => {
     fetchPublications()
     checkTokens()
@@ -83,6 +85,7 @@ export default function Home() {
       })
 
       const profileId = profileResponse.data.profiles.items[0].id
+      setProfile(profileResponse.data.profiles.items[0])
 
       const response = await client.query({
         query: feed,
@@ -128,6 +131,7 @@ export default function Home() {
       const { data: { authenticate: { accessToken, refreshToken }}} = authData
       fetchFeed(accessToken)
       setAuthenticated(true)
+      setWeb3Provider(provider)
       window.localStorage.setItem('lens-algo-rt', refreshToken)
     } catch (err) {
       console.log('Error signing in: ', err)
@@ -138,6 +142,19 @@ export default function Home() {
     <div>
       <div>
         <p className="text-3xl text-slate-400 mb-4">Lens</p>
+        <div className='mb-2'>
+        authenticated: {authenticated.toString()} - profile: {profile && profile.id} - provider: {Boolean(web3Provider).toString()}
+        </div>
+        <div className='mb-2'>
+          {(!web3Provider || !profile) && 
+            <button
+              className="
+                rounded-full bg-black text-white px-8 py-2 mt-3
+              "
+              onClick={signIn}
+            >Sign in with Lens</button>
+          }
+        </div>
         <p className="mb-2 font-bold">API type</p>
         <button
           onClick={() => setView('global')}>
@@ -216,11 +233,15 @@ export default function Home() {
                         <Publication
                           publicationId={publication.id}
                         />
-                        {publication.id.includes('-DA-') && <div className='ml-3 my-2'>
-                          <MomokaCollect
-                            publicationId={publication.id}
-                          />
-                        </div>}
+                        {publication.__typename != 'Comment' && publication.id.includes('-DA-') && (
+                          <div className='ml-3 my-2'>
+                            <MomokaCollect
+                              publicationId={publication.id}
+                              provider={web3Provider}
+                              profile={profile}
+                            />
+                          </div>
+                        )}
                       </div>
                     ))
                   }
@@ -240,12 +261,6 @@ export default function Home() {
         view === 'personalized' && !authenticated && (
           <>
             <p className="mt-4">To use this API, please sign in with Lens.</p>
-            <button
-              className="
-                rounded-full bg-black text-white px-8 py-2 mt-3
-              "
-              onClick={signIn}
-            >Sign in with Lens</button>
           </>
         )
       }
@@ -260,6 +275,15 @@ export default function Home() {
                     <Publication
                       publicationId={publication.id}
                     />
+                    {publication.__typename != 'Comment' && publication.id.includes('-DA-') && (
+                      <div className='ml-3 my-2'>
+                        <MomokaCollect
+                          publicationId={publication.id}
+                          provider={web3Provider}
+                          profile={profile}
+                        />
+                      </div>
+                    )}
                   </div>
                 ))
               }
